@@ -1,0 +1,23 @@
+{
+  "title": "Psoriasis multi-signature benchmark",
+  "description": "Analysis code for a three-cohort case-only lesion/nonlesional benchmark of ten published psoriasis transcriptomic signatures against keratinocyte, inflammatory, IFN-gamma and proliferation baseline expression programmes.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "mit",
+  "creators": [
+    {
+      "name": "Zhang, Huiyu"
+    },
+    {
+      "name": "Shi, Dongmei",
+      "orcid": "0000-0002-0886-4191"
+    }
+  ],
+  "keywords": [
+    "psoriasis",
+    "transcriptomics",
+    "gene signature",
+    "benchmark",
+    "reproducibility"
+  ]
+}

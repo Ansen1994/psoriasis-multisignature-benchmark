@@ -1,0 +1,8 @@
+artifacts/
+data/benchmark/
+sources/raw/
+node_modules/
+.Rhistory
+.RData
+*.log
+*.tmp

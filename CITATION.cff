@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, cite both this archived release and the associated PeerJ article."
+title: "Psoriasis multi-signature benchmark"
+abstract: "Analysis code for a three-cohort case-only lesion/nonlesional benchmark of ten published psoriasis transcriptomic signatures against biological baseline expression programmes."
+authors:
+  - family-names: "Zhang"
+    given-names: "Huiyu"
+  - family-names: "Shi"
+    given-names: "Dongmei"
+    orcid: "https://orcid.org/0000-0002-0886-4191"
+license: MIT
+repository-code: "https://github.com/Ansen1994/psoriasis-multisignature-benchmark"
+version: "1.0.0"
+date-released: "2026-11-18"
+keywords:
+  - psoriasis
+  - transcriptomics
+  - gene signature
+  - benchmark
+  - reproducibility

@@ -1,0 +1,25 @@
+relative_path,accession,source_type,landing_page
+sources/raw/GPL570/GPL570.annot.gz,GPL570,GEO platform,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL570
+sources/raw/GPL96/GPL96_full.txt,GPL96,GEO platform,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL96
+sources/raw/GSE13355/GSE13355_series_matrix.txt.gz,GSE13355,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13355
+sources/raw/GSE14905/GSE14905_series_matrix.txt.gz,GSE14905,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE14905
+sources/raw/GSE154200/GSE154200_series_matrix.txt.gz,GSE154200,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154200
+sources/raw/GSE154200/GSE154200_countMat.txt.gz,GSE154200,GEO supplementary file,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154200
+sources/raw/GSE154200/GSE154200_samples_brief.txt,GSE154200,GEO sample metadata,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154200
+sources/raw/GSE212476/GSE212476_submission_fpkm.csv.gz,GSE212476,GEO supplementary file,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212476
+sources/raw/GSE30999/GSE30999_series_matrix.txt.gz,GSE30999,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE30999
+sources/raw/GSE41664/GSE41664_series_matrix.txt.gz,GSE41664,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41664
+sources/raw/GSE6710/GSE6710_series_matrix.txt.gz,GSE6710,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE6710
+sources/raw/GSE78097/GSE78097_series_matrix.txt.gz,GSE78097,GEO series,https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE78097
+sources/raw/msigdb/c5.go.v2025.1.Hs.symbols.gmt,MSigDB-2025.1.Hs,Gene set collection,https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+sources/raw/msigdb/h.all.v2025.1.Hs.symbols.gmt,MSigDB-2025.1.Hs,Gene set collection,https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+sources/raw/literature/PMC10909359.fullText.xml,PMC10909359,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC10909359/
+sources/raw/literature/PMC12192183.fullText.xml,PMC12192183,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC12192183/
+sources/raw/literature/PMC12433973.fullText.xml,PMC12433973,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC12433973/
+sources/raw/literature/PMC12605623.fullText.xml,PMC12605623,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC12605623/
+sources/raw/literature/PMC13107425.fullText.xml,PMC13107425,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13107425/
+sources/raw/literature/PMC13299817.fullText.xml,PMC13299817,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13299817/
+sources/raw/literature/PMC13575954.fullText.xml,PMC13575954,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13575954/
+sources/raw/literature/PMC13677910.fullText.xml,PMC13677910,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13677910/
+sources/raw/literature/PMC13712149.fullText.xml,PMC13712149,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13712149/
+sources/raw/literature/PMC13726643.fullText.xml,PMC13726643,PMC open-access record,https://pmc.ncbi.nlm.nih.gov/articles/PMC13726643/
