@@ -10,7 +10,7 @@ authors:
     orcid: "https://orcid.org/0000-0002-0886-4191"
 license: MIT
 repository-code: "https://github.com/Ansen1994/psoriasis-multisignature-benchmark"
-version: "1.0.0"
+version: "1.0.2"
 date-released: "2026-11-18"
 keywords:
   - psoriasis

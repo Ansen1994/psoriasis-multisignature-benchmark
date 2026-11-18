@@ -6,3 +6,4 @@ node_modules/
 .RData
 *.log
 *.tmp
+ZENODO_DOI.txt
