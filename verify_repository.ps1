@@ -1,35 +1,95 @@
+param(
+    [switch]$UpdateManifest
+)
+
 $ErrorActionPreference = 'Stop'
+$repoRoot = $PSScriptRoot
+$manifestPath = Join-Path $repoRoot 'SHA256_MANIFEST.csv'
+Push-Location $repoRoot
+try {
+    if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+        throw 'Node.js is required for the JavaScript syntax checks.'
+    }
 
-node --check scripts/benchmark_gate.mjs
-if ($LASTEXITCODE -ne 0) { throw 'benchmark_gate.mjs syntax check failed' }
+    $nodeScripts = @(
+        'scripts/benchmark_gate.mjs',
+        'scripts/benchmark_score.mjs',
+        'scripts/benchmark_increment.mjs',
+        'scripts/audit_gse154200.mjs',
+        'scripts/benchmark_gse154200.mjs'
+    )
+    foreach ($script in $nodeScripts) {
+        node --check $script
+        if ($LASTEXITCODE -ne 0) { throw "$script syntax check failed" }
+    }
 
-node --check scripts/benchmark_score.mjs
-if ($LASTEXITCODE -ne 0) { throw 'benchmark_score.mjs syntax check failed' }
+    if (Get-Command Rscript -ErrorAction SilentlyContinue) {
+        Rscript -e "invisible(parse(file='scripts/generate_peerj_figures_supplements.R')); cat('R syntax check passed\n')"
+        if ($LASTEXITCODE -ne 0) { throw 'generate_peerj_figures_supplements.R syntax check failed' }
+    } else {
+        Write-Warning 'Rscript not found; R syntax check skipped.'
+    }
 
-node --check scripts/benchmark_increment.mjs
-if ($LASTEXITCODE -ne 0) { throw 'benchmark_increment.mjs syntax check failed' }
+    if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+        throw 'Git is required to determine the repository file set.'
+    }
+    $gitPaths = git ls-files --cached --others --exclude-standard
+    if ($LASTEXITCODE -ne 0) { throw 'git ls-files failed.' }
 
-node --check scripts/audit_gse154200.mjs
-if ($LASTEXITCODE -ne 0) { throw 'audit_gse154200.mjs syntax check failed' }
+    $rows = foreach ($relativePath in $gitPaths) {
+        $normalized = $relativePath.Replace('\', '/')
+        if ($normalized -eq 'SHA256_MANIFEST.csv') { continue }
+        $fullPath = Join-Path $repoRoot $relativePath
+        if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+            throw "Tracked file is missing from disk: $normalized"
+        }
+        [pscustomobject]@{
+            path = $normalized
+            bytes = (Get-Item -LiteralPath $fullPath).Length
+            sha256 = (Get-FileHash -LiteralPath $fullPath -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+    }
+    $rows = @($rows | Sort-Object path)
 
-node --check scripts/benchmark_gse154200.mjs
-if ($LASTEXITCODE -ne 0) { throw 'benchmark_gse154200.mjs syntax check failed' }
+    if ($UpdateManifest) {
+        $csv = (($rows | ConvertTo-Csv -NoTypeInformation) -join "`r`n") + "`r`n"
+        [System.IO.File]::WriteAllText($manifestPath, $csv, (New-Object System.Text.UTF8Encoding($false)))
+        Write-Host "Manifest updated: $manifestPath"
+        return
+    }
 
-if (Get-Command Rscript -ErrorAction SilentlyContinue) {
-  Rscript -e "invisible(parse(file='scripts/generate_peerj_figures_supplements.R')); cat('R syntax check passed\n')"
-  if ($LASTEXITCODE -ne 0) { throw 'generate_peerj_figures_supplements.R syntax check failed' }
-} else {
-  Write-Warning 'Rscript not found; R syntax check skipped.'
+    if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+        throw 'SHA256_MANIFEST.csv is missing; run with -UpdateManifest after reviewing changes.'
+    }
+
+    $expected = @(Import-Csv -LiteralPath $manifestPath)
+    $currentByPath = @{}
+    foreach ($row in $rows) { $currentByPath[$row.path] = $row }
+    $expectedByPath = @{}
+    foreach ($row in $expected) { $expectedByPath[$row.path] = $row }
+
+    $allPaths = @($currentByPath.Keys + $expectedByPath.Keys | Sort-Object -Unique)
+    $differences = foreach ($path in $allPaths) {
+        if (-not $currentByPath.ContainsKey($path)) {
+            "missing from repository: $path"
+            continue
+        }
+        if (-not $expectedByPath.ContainsKey($path)) {
+            "not listed in manifest: $path"
+            continue
+        }
+        $actual = $currentByPath[$path]
+        $recorded = $expectedByPath[$path]
+        if ($actual.bytes -ne $recorded.bytes -or $actual.sha256 -ne $recorded.sha256) {
+            "changed: $path"
+        }
+    }
+
+    if ($differences) {
+        throw "Repository manifest mismatch:`n$($differences -join "`n")`nRun with -UpdateManifest only after reviewing the changes."
+    }
+
+    Write-Host "Repository verification passed. $($rows.Count) files match SHA256_MANIFEST.csv."
+} finally {
+    Pop-Location
 }
-
-$files = Get-ChildItem -File -Recurse | Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' -and $_.Name -ne 'SHA256_MANIFEST.csv' }
-$rootPath = (Get-Location).Path
-$rows = foreach ($file in $files) {
-  [pscustomobject]@{
-    path = $file.FullName.Substring($rootPath.Length).TrimStart('\', '/').Replace('\\', '/')
-    bytes = $file.Length
-    sha256 = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-  }
-}
-$rows | Sort-Object path | Export-Csv -LiteralPath 'SHA256_MANIFEST.csv' -NoTypeInformation -Encoding utf8
-Write-Host "Repository verification passed. Manifest: SHA256_MANIFEST.csv"

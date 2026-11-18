@@ -29,6 +29,21 @@ The endpoint is D2: lesional versus nonlesional skin within patients with psoria
 - R 4.4.2 or compatible.
 - R packages: `readr`, `dplyr`, `tidyr`, `ggplot2`, `patchwork`, `scales`, `grid`, `jsonlite`, `digest`, and `png`.
 
+## Verify a checkout
+
+Run the repository checks from any working directory:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\verify_repository.ps1
+```
+
+The verifier checks Node/R syntax and compares every tracked or publishable file with `SHA256_MANIFEST.csv`. It deliberately ignores local-only files such as `ZENODO_DOI.txt`. After reviewing an intentional code or metadata change, regenerate the manifest once and rerun the verifier:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\verify_repository.ps1 -UpdateManifest
+powershell -NoProfile -ExecutionPolicy Bypass -File .\verify_repository.ps1
+```
+
 ## Run order
 
 ```powershell
@@ -41,6 +56,8 @@ Rscript scripts/generate_peerj_figures_supplements.R
 ```
 
 The scripts write derived outputs to `data/benchmark/` and `artifacts/`. Raw public inputs must first be placed under `sources/raw/` as documented in `data/input_manifest.csv` and `README_INPUTS.md`.
+
+`run_all.ps1` resolves paths from its own location, so it can be invoked from outside the repository root.
 
 ## Prespecified decisions
 

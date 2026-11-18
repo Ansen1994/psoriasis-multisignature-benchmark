@@ -1,4 +1,11 @@
 $ErrorActionPreference = 'Stop'
+$repoRoot = $PSScriptRoot
+Push-Location $repoRoot
+try {
+
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+  throw 'Node.js is required to run the analysis workflow.'
+}
 
 $requiredInputs = @(
   'sources/raw/GPL570/GPL570.annot.gz',
@@ -42,4 +49,8 @@ if (Get-Command Rscript -ErrorAction SilentlyContinue) {
   if ($LASTEXITCODE -ne 0) { throw 'generate_peerj_figures_supplements.R failed' }
 } else {
   Write-Warning 'Rscript not found; analysis outputs were generated, but figures and supplements were not rebuilt.'
+}
+
+} finally {
+  Pop-Location
 }
